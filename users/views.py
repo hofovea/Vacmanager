@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import auth
-from django.contrib.auth import login
-
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from users.models import CustomUser
 
@@ -27,6 +27,15 @@ def sign_in(request):
         return render(request, 'login.html')
 
 
+@login_required(login_url='login')
+def sign_out(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            logout(request)
+            return redirect('login')
+        return redirect('/')
+
+
 def register(request):
     if request.method == 'POST':
         first_name = request.POST['name']
@@ -44,6 +53,9 @@ def register(request):
                 user.first_name = first_name
                 user.save()
                 print('new user added')
+                user = auth.authenticate(username=email, password=password)
+                print(request.user.is_authenticated)
+                login(request, user)
                 return redirect('/')
         else:
             return HttpResponse('Passwords do not match')

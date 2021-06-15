@@ -15,7 +15,10 @@ def home_doctor(request):
 
 
 def add_patient(request):
-    return render(request, 'add_patient.html', {'log': 'Please login', 'reg': 'Please register'})
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'add_patient.html', {'log': 'Please login', 'reg': 'Please register'})
 
 
 def add_vaccine_patient(request):
@@ -37,6 +40,9 @@ def doctor_queue(request):
 def email_update(request):
     if request.method == 'POST':
         print(request.user.email)
+        if CustomUser.objects.filter(email=request.user.email).exists():
+            print('Email taken')
+            return HttpResponse('Email is taken')
         user_to_upd = CustomUser.objects.get(email=request.user.email)
         user_to_upd.email = request.POST['email']
         user_to_upd.save()

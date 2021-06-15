@@ -26,8 +26,8 @@
                                 <li class="has-children">
                                     <a href="#about-section" class="nav-link">Пацієнти</a>
                                     <ul class="dropdown arrow-top">
-                                        <li><a href="#team-section" class="nav-link">Додати пацієнтва</a></li>
-                                        <li><a href="#team-section" class="nav-link">Редагувати дані пацієнта</a></li>
+                                        <li><a href="../add_patient" class="nav-link">Додати пацієнтва</a></li>
+                                        <li><a href="../upd_patient" class="nav-link">Редагувати дані пацієнта</a></li>
                                         </li>
                                     </ul>
                                 </li>
@@ -52,23 +52,17 @@
                                     </ul>
                                 </li>
                                 <li><a href="#home-section" class="nav-link">Переглянути чергу</a></li>
-                                <li>
-                                    <form class="nav-link" action="../" method="post">
-                                        <input class="nav-link" style="width: 100%" type="submit" name="sign_out"
-                                               value="Вийти"/>
-                                    </form>
-                                </li>
                             {% else %}
                                 <li><a href="#home-section" class="nav-link">Записатись в чергу</a></li>
                                 <li><a href="#why-us-section" class="nav-link">Власні щеплення</a></li>
-
-                                <li>
-                                    <form class="nav-link" action="../" method="post">
-                                        <input class="nav-link" style="width: 100%" type="submit" name="sign_out"
-                                               value="Вийти"/>
-                                    </form>
-                                </li>
                             {% endif %}
+                            <li>
+                                <form class="nav-link" action="users/logout" method="post">
+                                    {% csrf_token %}
+                                    <input class="nav-link" style="width: 100%" type="submit" name="sign_out"
+                                           value="Вийти"/>
+                                </form>
+                            </li>
                         {% else %}
                             <li><a href="users/login" class="nav-link">Ввійти до системи</a></li>
                             <li><a href="users/registration" class="nav-link">Зареєструватись у системі</a></li>
