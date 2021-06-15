@@ -1,23 +1,27 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import auth
+from django.contrib.auth import login
 
 # Create your views here.
 from users.models import CustomUser
 
 
-def login(request):
+def sign_in(request):
     if request.method == 'POST':
+        if request.user.is_authenticated:
+            print('already signed in')
+            return redirect('/')
         email = request.POST['email']
         password = request.POST['pass']
         # if 'is_remember' in request.POST:
         #     is_remember = request.POST['is_remember']
-        print(request.user.is_authenticated)
-        user = auth.authenticate(request, username=email, password=password)
+        user = auth.authenticate(username=email, password=password)
         print(request.user.is_authenticated)
         if user is not None:
-            login(request)
-        return redirect('/')
+            login(request, user)
+            return redirect('/')
+        return HttpResponse('no such user')
 
     else:
         return render(request, 'login.html')

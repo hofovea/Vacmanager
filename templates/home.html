@@ -19,15 +19,15 @@
                     </tr>
                     <tr>
                         <td><b>Прізвище</b></td>
-                        <td>Защик</td>
+                        <td>{{ user.last_name }}</td>
                     </tr>
                     <tr>
                         <td><b>Email</b></td>
-                        <td>ivan67@gmail.com</td>
+                        <td>{{ user.email }}</td>
                     </tr>
                     <tr>
                         <td><b>Зареєстрований</b></td>
-                        <td>18.04.2021</td>
+                        <td>{{ user.date_joined|date:"d M Y" }}</td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -48,7 +48,8 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="POST" class="register-form" id="register-form">
+                                        <form action="upd_email" method="POST" class="register-form" id="register-form">
+                                            {% csrf_token %}
                                             <div class="modal-body">
                                                 <input required class="form-control" type="email" name="email"
                                                        id="email"
@@ -85,7 +86,8 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="POST" class="register-form" id="register-form">
+                                        <form action="upd_pass" method="POST" class="register-form" id="register-form">
+                                            {% csrf_token %}
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="pass" class="col-form-label">Пароль:</label>
@@ -106,7 +108,7 @@
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                                     Відмінити
                                                 </button>
-                                                <button id="pass_submit_btn" type="submit" class="btn btn-primary">
+                                                <button disabled id="pass_submit_btn" type="submit" class="btn btn-primary">
                                                     Зберегти
                                                 </button>
                                             </div>

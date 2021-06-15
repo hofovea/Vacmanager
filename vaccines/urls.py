@@ -10,4 +10,6 @@ urlpatterns = [
     path('personal_vaccinations', views.personal_vaccinations, name='personal_vaccinations'),
     path('patient_queue', views.patient_queue, name='patient_queue'),
     path('doctor_queue', views.doctor_queue, name='doctor_queue'),
+    path('upd_email', views.email_update, name='upd_email'),
+    path('upd_pass', views.password_update, name='upd_email')
 ]
