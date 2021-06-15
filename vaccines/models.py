@@ -52,6 +52,7 @@ class Patient(models.Model):
 
 class Queue(models.Model):
     date = models.DateField()
+    is_active = models.BooleanField(default=True)
     patients = models.ManyToManyField(Patient, related_name='queues', null=True, blank=True)
 
 
