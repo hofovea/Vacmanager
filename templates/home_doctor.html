@@ -1,0 +1,261 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'navbar_styles/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/bootstrap.min.css' %}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/style.css' %}">
+
+    <title>Vaccine management</title>
+</head>
+<body>
+
+<div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+</div>
+
+<header class="site-navbar js-sticky-header site-navbar-target" role="banner">
+
+    <div class="container">
+        <div class="row align-items-center position-relative">
+
+
+            <div class="site-logo">
+                <a href="../" class="text-black"><span class="text-primary">VacManager</span></a>
+            </div>
+
+            <div class="col-12">
+                <nav class="site-navigation text-right ml-auto " role="navigation">
+
+                    <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                        <li class="has-children">
+                            <a href="#about-section" class="nav-link">Пацієнти</a>
+                            <ul class="dropdown arrow-top">
+                                <li><a href="#team-section" class="nav-link">Додати пацієнтва</a></li>
+                                <li><a href="#team-section" class="nav-link">Редагувати дані пацієнта</a></li>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has-children">
+                            <a href="#about-section" class="nav-link">Вакцинація</a>
+                            <ul class="dropdown arrow-top">
+                                <li><a href="#team-section" class="nav-link">Додати результат щеплення</a></li>
+                                <li><a href="#team-section" class="nav-link">Редагувати результат щеплення</a></li>
+                                <li><a href="#pricing-section" class="nav-link">Переглянути результати вакцинації</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has-children">
+                            <a href="#about-section" class="nav-link">Звіти</a>
+                            <ul class="dropdown arrow-top">
+                                <li><a href="#team-section" class="nav-link">Гістограма</a></li>
+                                <li><a href="#pricing-section" class="nav-link">Кругова діаграма</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#home-section" class="nav-link">Переглянути чергу</a></li>
+                        <li>
+                            <form class="nav-link" action="../" method="post">
+                                <input class="nav-link" style="width: 100%" type="submit" name="sign_out"
+                                       value="Вийти"/>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="toggle-button d-inline-block d-lg-none"><a href="#"
+                                                                   class="site-menu-toggle py-5 js-menu-toggle text-black"><span
+                    class="icon-menu h3"></span></a></div>
+
+        </div>
+    </div>
+
+</header>
+
+
+{#    <a href="/login">{{ log }}</a>#}
+{#    <a href="/registration">{{ reg }}</a>#}
+
+<div class="container">
+    <div class="card card-1  text-md-center">
+        <div class="card card-1  text-md-center" id="card1">
+            <table class="table table-hover">
+                <tbody>
+                <tr>
+                    <td><b>Ім'я</b></td>
+                    <td>Цемах</td>
+                </tr>
+                <tr>
+                    <td><b>Прізвище</b></td>
+                    <td>Шабад</td>
+                </tr>
+                <tr>
+                    <td><b>Email</b></td>
+                    <td>shabad48@gmail.com</td>
+                </tr>
+                <tr>
+                    <td><b>Зареєстрований</b></td>
+                    <td>19.05.2021</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- Button trigger modal -->
+                        <button style="width: 50%" type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#updModal">
+                            Змінити пошту
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="updModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Введіть новий email:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="POST" class="register-form" id="register-form">
+                                        <div class="modal-body">
+                                            <input required class="form-control" type="email" name="email" id="email"
+                                                   placeholder="mail@exmple.com"/>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Відмінити
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Зберегти</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button style="width: 50%" type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#updPassModal">
+                            Змінити пароль
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="updPassModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Введіть новий пароль:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="POST" class="register-form" id="register-form">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="pass" class="col-form-label">Пароль:</label>
+                                                <input required class="form-control" type="password" name="pass" id="pass"
+                                                       placeholder="Password" onkeyup="checkPass();"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="re_pass" class="col-form-label">Повторіть пароль:</label>
+                                                <input required class="form-control" type="password" name="re_pass" id="re_pass"
+                                                       placeholder="Repeat your password"
+                                                       onkeyup="checkPass();"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Відмінити
+                                            </button>
+                                            <button id="pass_submit_btn" type="submit" class="btn btn-primary">Зберегти
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'navbar_styles/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/popper.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/jquery.sticky.js' %}"></script>
+<script src="{% static 'navbar_styles/js/main.js' %}"></script>
+<script type="text/javascript">
+    $('#updModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+    })
+
+    $('#updPassModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+    })
+
+    function checkPass() {
+        //Store the password field objects into variables ...
+        var password = document.getElementById('pass');
+        var confirm = document.getElementById('re_pass');
+        //Set the colors we will be using ...
+        var good_color = "#66cc66";
+        var bad_color = "#ff6666";
+        //Compare the values in the password field
+        //and the confirmation field
+        if (password.value == confirm.value) {
+            //The passwords match.
+            //Set the color to the good color and inform
+            //the user that they have entered the correct password
+            confirm.style.backgroundColor = good_color;
+            $('#pass_submit_btn').prop('disabled', false);
+        } else {
+            //The passwords do not match.
+            //Set the color to the bad color and
+            //notify the user.
+            confirm.style.backgroundColor = bad_color;
+            $('#pass_submit_btn').prop('disabled', true);
+        }
+    }
+
+</script>
+</body>
+</html>

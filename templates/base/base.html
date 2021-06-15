@@ -1,0 +1,87 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'navbar_styles/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/bootstrap.min.css' %}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'navbar_styles/css/style.css' %}">
+
+    <title>Vaccine management</title>
+</head>
+<body>
+
+{% include "base/navbar.html" %}
+
+{% if user.is_authenticated %}
+    {% block content %}
+
+    {% endblock %}
+{% endif %}
+
+<script src="{% static 'navbar_styles/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/popper.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'navbar_styles/js/jquery.sticky.js' %}"></script>
+<script src="{% static 'navbar_styles/js/main.js' %}"></script>
+<script type="text/javascript">
+    $('#updModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+    })
+
+    $('#updPassModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+    })
+
+    function checkPass() {
+        //Store the password field objects into variables ...
+        var password = document.getElementById('pass');
+        var confirm = document.getElementById('re_pass');
+        //Set the colors we will be using ...
+        var good_color = "#66cc66";
+        var bad_color = "#ff6666";
+        //Compare the values in the password field
+        //and the confirmation field
+        if (password.value == confirm.value
+            && password.value.trim() === ''
+            && confirm.value.trim() === '') {
+            //The passwords match.
+            //Set the color to the good color and inform
+            //the user that they have entered the correct password
+            confirm.style.backgroundColor = good_color;
+            $('#pass_submit_btn').prop('disabled', false);
+        } else {
+            //The passwords do not match.
+            //Set the color to the bad color and
+            //notify the user.
+            confirm.style.backgroundColor = bad_color;
+            $('#pass_submit_btn').prop('disabled', true);
+        }
+    }
+
+</script>
+</body>
+</html>

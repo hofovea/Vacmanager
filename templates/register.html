@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'styles/login_style.css' %}" media="screen"/>#}
+    <link rel="stylesheet"
+          href="{% static 'auth_styles/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'auth_styles/css/style.css' %}">
+    <script src="{% static 'auth_styles/js/main.js' %}"></script>
+</head>
+<body>
+<div class="main">
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <form action="registration" method="POST" class="register-form" id="register-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input required type="text" name="name" id="name" placeholder="Your Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input required type="text" name="surname" id="surname" placeholder="Your Surname"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input required type="email" name="email" id="email" placeholder="Your Email"/>
+                        </div>
+                        <div class="form-group">
+                            <label id="pass_label" for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input required type="password" name="pass" id="pass" placeholder="Password"
+                                   onkeyup="checkPass();"/>
+                        </div>
+                        <div class="form-group">
+                            <label id="re_pass_label" for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input required type="password" name="re_pass" id="re_pass"
+                                   placeholder="Repeat your password"
+                                   onkeyup="checkPass();"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="is_doctor" id="is_doctor" class="agree-term"/>
+                            <label for="is_doctor" class="label-agree-term"><span><span></span></span>I am
+                                doctor</label>
+                        </div>
+                        <div class="form-group form-button">
+                            {#                            <button id="signup_btn" type="submit" class="form-submit">Register</button>#}
+                            <input disabled type="submit" name="signup" id="signup_btn" class="form-submit"
+                                   value="Register"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="{% static 'auth_styles/images/signup-image.jpg' %}" alt="sing up image"></figure>
+                    <a href="login" class="signup-image-link">I am already member</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'navbar_styles/js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript">
+        function checkPass() {
+            //Store the password field objects into variables ...
+            var password = document.getElementById('pass');
+            var confirm = document.getElementById('re_pass');
+            var pass_outline = document.getElementById('pass_label');
+            var re_pass_outline = document.getElementById('re_pass_label');
+            //Set the colors we will be using ...
+            var good_color = "#66cc66";
+            var bad_color = "#ff6666";
+            //Compare the values in the password field
+            //and the confirmation field
+            if (password.value == confirm.value) {
+                //The passwords match.
+                //Set the color to the good color and inform
+                //the user that they have entered the correct password
+                pass_outline.style.color = good_color;
+                re_pass_outline.style.color = good_color;
+                $('#signup_btn').removeAttr("disabled");
+            } else {
+                //The passwords do not match.
+                //Set the color to the bad color and
+                //notify the user.
+                pass_outline.style.color = bad_color;
+                re_pass_outline.style.color = bad_color;
+                $('#signup_btn').attr("disabled", true);
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

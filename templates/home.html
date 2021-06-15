@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td><b>Ім'я</b></td>
+                        <td>
+                            {% if user.is_doctor %}
+                                doctor
+                            {% else %}
+                                patient
+                            {% endif %}
+                            {{ user.first_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Прізвище</b></td>
+                        <td>Защик</td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td>ivan67@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td><b>Зареєстрований</b></td>
+                        <td>18.04.2021</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <!-- Button trigger modal -->
+                            <button style="width: 50%" type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#updModal">
+                                Змінити пошту
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="updModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Введіть новий email:</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" class="register-form" id="register-form">
+                                            <div class="modal-body">
+                                                <input required class="form-control" type="email" name="email"
+                                                       id="email"
+                                                       placeholder="mail@exmple.com"/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Відмінити
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Зберегти</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button style="width: 50%" type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#updPassModal">
+                                Змінити пароль
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="updPassModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Введіть новий
+                                                пароль:</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" class="register-form" id="register-form">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="pass" class="col-form-label">Пароль:</label>
+                                                    <input required class="form-control" type="password" name="pass"
+                                                           id="pass"
+                                                           placeholder="Password" onkeyup="checkPass();"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="re_pass" class="col-form-label">Повторіть
+                                                        пароль:</label>
+                                                    <input required class="form-control" type="password" name="re_pass"
+                                                           id="re_pass"
+                                                           placeholder="Repeat your password"
+                                                           onkeyup="checkPass();"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Відмінити
+                                                </button>
+                                                <button id="pass_submit_btn" type="submit" class="btn btn-primary">
+                                                    Зберегти
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
