@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-
+{% load custom_filters %}
 {% block content %}
 
 
@@ -23,68 +23,91 @@
                             <td><b>Список пацієнтів:</b></td>
                         {% endif %}
                     </tr>
-                    <tr>
-                        <td>06.10.2021</td>
-                        <td>Можна записуватись</td>
-                        {% if user.is_doctor %}
+                    {% for queue in queues %}
+                        <tr>
+                            <td>{{ queue.date|date:"d/m/Y" }}</td>
                             <td>
-                                <form method="post">
-                                    <input class="btn btn-primary" style="width: 50%" type="submit"
-                                           name="sign_up_queue"
-                                           value="Деактивувати"/>
-                                </form>
+                                {% if queue.is_active %}
+                                    Активно
+                                {% else %}
+                                    Неактивно
+                                {% endif %}
                             </td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModalLong1">
-                                    Черга пацієнтів
-                                </button>
+                            {% if user.is_doctor %}
+                                <td>
+                                    <form action="queue" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="queue_id" value="{{ queue.id }}">
+                                        {% if queue.is_active %}
+                                            <input class="btn btn-warning" style="width: 50%" type="submit"
+                                                   name="sign_up_queue"
+                                                   value="Деактивувати"/>
+                                        {% else %}
+                                            <input class="btn btn-success" style="width: 50%" type="submit"
+                                                   name="sign_up_queue"
+                                                   value="Активувати"/>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#button{{ queue.pk }}">
+                                        Черга пацієнтів
+                                    </button>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <ol>
-                                                    <li>Іван Стеценко</li>
-                                                    <li>Іван Іванович</li>
-                                                </ol>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">
-                                                    Close
-                                                </button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="button{{ queue.pk }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Пацієнти,
+                                                        записані на {{ queue.date|date:"d/m/Y" }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <ol>
+                                                        {% for patient in queue.patients.all %}
+                                                            <li>{{ patient.name }} {{ patient.surname }}</li>
+                                                        {% endfor %}
+                                                    </ol>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        {% else %}
-                            <td>
-                                <form method="post">
-                                    <input class="btn btn-primary" style="width: 50%" type="submit"
-                                           name="sign_up_queue"
-                                           value="Записатись"/>
-                                </form>
-                            </td>
-                        {% endif %}
-                    </tr>
+                                </td>
+                            {% else %}
+                                <td>
+                                    {% if queue.is_active %}
+                                        <form action="queue" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="queue_id" value="{{ queue.id }}">
+                                            <input id="queue_btn" class="btn btn-primary" style="width: 50%"
+                                                   type="submit"
+                                                   name="sign_up_queue"
+                                                   value="Записатись"/>
+                                        </form>
+                                    {% else %}
+                                        Черга неактивна
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 
 {% endblock %}

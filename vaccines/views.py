@@ -336,8 +336,26 @@ def password_update(request):
 
 
 def queue(request):
-    queues = Queue.objects.all()
-    return render(request, 'queue/queue.html', {'queues': queues})
+    user = get_object_or_404(CustomUser, email=request.user.email)
+    if request.method == 'POST':
+        if user.is_doctor:
+            queue = get_object_or_404(Queue, id=request.POST['queue_id'])
+            queue.is_active = not queue.is_active
+            queue.save()
+            return redirect('/queue')
+        else:
+            queue = get_object_or_404(Queue, id=request.POST['queue_id'])
+            queue.patients.add(user.patient)
+            queue.save()
+            return redirect('/queue')
+    else:
+        if not user.is_doctor:
+            queues = Queue.objects.all().order_by('date')
+            patient = user.patient
+            return render(request, 'queue/queue.html', {'queues': queues, 'patient_queues': patient.queues.all()})
+        else:
+            queues = Queue.objects.all().order_by('date')
+            return render(request, 'queue/queue.html', {'queues': queues})
 
 
 def add_queue(request):
