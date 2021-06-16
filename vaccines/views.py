@@ -286,8 +286,9 @@ def search_update_vaccination(request):
                           {'action_url': 'search_patient_vaccination', 'patient': patient,
                            'vaccinations': patient.vaccination_dates.all()})
     else:
-        return render(request, 'patient/patient_search.html', {'action_name': 'Редагування інформації про щеплення пацієнта',
-                                                       'action_url': 'search_upd_vaccination'})
+        return render(request, 'patient/patient_search.html',
+                      {'action_name': 'Редагування інформації про щеплення пацієнта',
+                       'action_url': 'search_upd_vaccination'})
 
 
 def search_patient_vaccination(request):
@@ -335,8 +336,15 @@ def password_update(request):
 
 
 def queue(request):
-    return render(request, 'queue/queue.html')
+    queues = Queue.objects.all()
+    return render(request, 'queue/queue.html', {'queues': queues})
 
 
 def add_queue(request):
-    return None
+    if request.method == 'POST':
+        queue_date = request.POST['queue_date']
+        new_queue = Queue.objects.create(date=queue_date, is_active=True)
+        new_queue.save()
+        return redirect('/queue')
+    else:
+        return render(request, 'queue/queue_add.html')

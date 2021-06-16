@@ -5,56 +5,19 @@
     <div class="container">
         <div class="card card-1  text-md-center">
             <div class="card card-1  text-md-center" id="card1">
-                <form action="add_patient" method="POST">
+                <form action="add_queue" method="POST">
                     {% csrf_token %}
                     <table class="table table-hover">
                         <tbody>
                         <tr>
-                            <td><b><label for="InputName">Ім'я пацієнта</label></b></td>
-                            <td>
-                                <input name="patient_first_name" required type="text" class="form-control" id="InputName" placeholder="Введіть ім'я">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b><label for="InputSurname">Прізвище пацієнта</label></b></td>
-                            <td>
-                                <input name="patient_last_name" required type="text" class="form-control" id="InputSurname"
-                                       placeholder="Введіть прізвище">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b><label for="InputBirthday">Дата народження пацієнта</label></b></td>
-                            <td><input name="patient_birthday" required type="date" class="form-control" id="InputBirthday"></td>
-                        </tr>
-                        <tr>
                             <td colspan="2">
-                                <h4><b>Адреса пацієнта</b></h4>
+                                <h3><b>Додавання черги</b></h3>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <b><label for="InputHouseNumber">Номер будинку</label></b>
-                            </td>
-                            <td><input name="address_house_number" required type="number" class="form-control" id="InputHouseNumber"
-                                       placeholder="Введіть номер будинку"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b><label for="InputStreet">Назва вулиці</label></b>
-                            </td>
-                            <td>
-                                <input name="address_street" required type="text" class="form-control" id="InputStreet"
-                                       placeholder="Введіть назву вулиці">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b><label for="InputSettlement">Назва населеного пункту</label></b>
-                            </td>
-                            <td>
-                                <input name="address_town" required type="text" class="form-control" id="InputSettlement"
-                                       placeholder="Введіть назву населеного пунту">
-                            </td>
+                            <td><b><label for="datefield">День, на який буде створена черга:</label></b></td>
+                            <td><input name="queue_date" required type="date" class="form-control"
+                                       id="datefield"></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -68,4 +31,21 @@
         </div>
     </div>
 
+<script>
+
+var today = new Date();
+var dd = today.getDate() + 1;
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+ if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+
+today = yyyy+'-'+mm+'-'+dd;
+document.getElementById("datefield").setAttribute("min", today);
+
+</script>
 {% endblock %}
