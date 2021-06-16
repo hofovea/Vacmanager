@@ -10,7 +10,7 @@ from .models import *
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'index.html')
 
 
 def get_life_period(age_in_years, age_in_months):
@@ -101,7 +101,7 @@ def add_patient(request):
         new_patient.save()
         return redirect('/')
     else:
-        return render(request, 'add_patient.html')
+        return render(request, 'patient/patient_add.html')
 
 
 def search_update_patient(request):
@@ -114,14 +114,14 @@ def search_update_patient(request):
         except Patient.DoesNotExist:
             patient = None
         if patient is None:
-            return render(request, 'search_patient.html',
+            return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
                            'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
         else:
-            return render(request, 'update_patient.html',
+            return render(request, 'patient/patient_update.html',
                           {'patient_to_update': patient})
     else:
-        return render(request, 'search_patient.html',
+        return render(request, 'patient/patient_search.html',
                       {'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
 
 
@@ -234,18 +234,18 @@ def search_add_vaccination(request):
         except Patient.DoesNotExist:
             patient = None
         if patient is None:
-            return render(request, 'search_patient.html',
+            return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
                            'action_name': 'Додавання інформації про щеплення пацієнта',
                            'action_url': 'search_add_vaccination'})
         else:
             all_vaccines = Vaccine.objects.all()
-            return render(request, 'add_vaccination.html',
+            return render(request, 'vaccination/vaccination_add.html',
                           {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
                            'life_period': get_life_period_string(patient.life_period.life_period),
                            'vaccines': all_vaccines})
     else:
-        return render(request, 'search_patient.html',
+        return render(request, 'patient/patient_search.html',
                       {'action_name': 'Додавання інформації про щеплення пацієнта',
                        'action_url': 'search_add_vaccination'})
 
@@ -277,16 +277,16 @@ def search_update_vaccination(request):
         except Patient.DoesNotExist:
             patient = None
         if patient is None:
-            return render(request, 'search_patient.html',
+            return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
                            'action_name': 'Редагування інформації про щеплення пацієнта',
                            'action_url': 'search_upd_vaccination'})
         else:
-            return render(request, 'search_vaccination.html',
+            return render(request, 'vaccination/vaccination_search.html',
                           {'action_url': 'search_patient_vaccination', 'patient': patient,
                            'vaccinations': patient.vaccination_dates.all()})
     else:
-        return render(request, 'search_patient.html', {'action_name': 'Редагування інформації про щеплення пацієнта',
+        return render(request, 'patient/patient_search.html', {'action_name': 'Редагування інформації про щеплення пацієнта',
                                                        'action_url': 'search_upd_vaccination'})
 
 
@@ -296,26 +296,18 @@ def search_patient_vaccination(request):
         vaccination_id = request.POST['vaccination_id']
         patient = Patient.objects.get(id=patient_id)
         vaccination = VaccinationDate.objects.get(id=vaccination_id)
-        return render(request, 'update_vaccination.html',
+        return render(request, 'vaccination/vaccination_update.html',
                       {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
                        'life_period': get_life_period_string(patient.life_period.life_period),
                        'vaccination': vaccination})
     else:
-        return render(request, 'search_patient.html',
+        return render(request, 'patient/patient_search.html',
                       {'action_name': 'Редагування інформації про щеплення пацієнта',
                        'action_url': 'upd_vaccination'})
 
 
 def personal_vaccinations(request):
-    return render(request, 'personal_vaccinations.html', {'log': 'Please login', 'reg': 'Please register'})
-
-
-def patient_queue(request):
-    return render(request, 'patient_queue.html', {'log': 'Please login', 'reg': 'Please register'})
-
-
-def doctor_queue(request):
-    return render(request, 'doctor_queue.html', {'log': 'Please login', 'reg': 'Please register'})
+    return render(request, 'vaccination/vaccinations_personal.html', {'log': 'Please login', 'reg': 'Please register'})
 
 
 def email_update(request):
@@ -340,3 +332,11 @@ def password_update(request):
             user.save()
             login(request, user)
             return redirect('/')
+
+
+def queue(request):
+    return render(request, 'queue/queue.html')
+
+
+def add_queue(request):
+    return None

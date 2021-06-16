@@ -16,8 +16,8 @@ urlpatterns = [
 
     path('personal_vaccinations', views.personal_vaccinations, name='personal_vaccinations'),
 
-    path('patient_queue', views.patient_queue, name='patient_queue'),
-    path('doctor_queue', views.doctor_queue, name='doctor_queue'),
+    path('queue', views.queue, name='doctor_queue'),
+    path('add_queue', views.add_queue, name='doctor_queue'),
 
     path('upd_email', views.email_update, name='email_update'),
     path('upd_pass', views.password_update, name='password_update')

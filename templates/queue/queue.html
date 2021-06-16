@@ -1,0 +1,90 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        {% if user.is_doctor %}
+                            <td colspan="4"><h4><b>ПОТОЧНА ЧЕРГА</b></h4></td>
+                        {% else %}
+                            <td colspan="3"><h4><b>ПОТОЧНА ЧЕРГА</b></h4></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td><b>Дата:</b></td>
+                        <td><b>Статус:</b></td>
+                        {% if user.is_doctor %}
+                            <td><b>Зміна статусу:</b></td>
+                            <td><b>Список пацієнтів:</b></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>06.10.2021</td>
+                        <td>Можна записуватись</td>
+                        {% if user.is_doctor %}
+                            <td>
+                                <form method="post">
+                                    <input class="btn btn-primary" style="width: 50%" type="submit"
+                                           name="sign_up_queue"
+                                           value="Деактивувати"/>
+                                </form>
+                            </td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModalLong1">
+                                    Черга пацієнтів
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ol>
+                                                    <li>Іван Стеценко</li>
+                                                    <li>Іван Іванович</li>
+                                                </ol>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        {% else %}
+                            <td>
+                                <form method="post">
+                                    <input class="btn btn-primary" style="width: 50%" type="submit"
+                                           name="sign_up_queue"
+                                           value="Записатись"/>
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
