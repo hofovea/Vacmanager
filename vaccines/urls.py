@@ -14,6 +14,7 @@ urlpatterns = [
     path('search_patient_vaccination', views.search_patient_vaccination, name='search_patient_vaccination'),
     path('search_upd_vaccination', views.search_update_vaccination, name='search_update_vaccination'),
 
+    # patient`s personal vaccination
     path('personal_vaccinations', views.personal_vaccinations, name='personal_vaccinations'),
 
     path('queue', views.queue, name='doctor_queue'),

@@ -308,7 +308,10 @@ def search_patient_vaccination(request):
 
 
 def personal_vaccinations(request):
-    return render(request, 'vaccination/vaccinations_personal.html', {'log': 'Please login', 'reg': 'Please register'})
+    user = get_object_or_404(CustomUser, email=request.user.email)
+    patient = get_object_or_404(Patient, id=user.patient.id)
+    vaccinations = patient.vaccination_dates.all()
+    return render(request, 'vaccination/vaccinations_personal.html', {'vaccinations': vaccinations})
 
 
 def email_update(request):
