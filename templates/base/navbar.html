@@ -24,10 +24,11 @@
                         {% if user.is_authenticated %}
                             {% if user.is_doctor %}
                                 <li class="has-children">
-                                    <a href="#about-section" class="nav-link">Пацієнти</a>
+                                    <a href="#patients-management-section" class="nav-link">Пацієнти</a>
                                     <ul class="dropdown arrow-top">
                                         <li><a href="../add_patient" class="nav-link">Додати пацієнтва</a></li>
-                                        <li><a href="../search_upd_patient" class="nav-link">Редагувати дані пацієнта</a></li>
+                                        <li><a href="../search_upd_patient" class="nav-link">Редагувати дані
+                                            пацієнта</a></li>
                                         </li>
                                     </ul>
                                 </li>
@@ -35,23 +36,23 @@
                                 <li class="has-children">
                                     <a href="#about-section" class="nav-link">Вакцинація</a>
                                     <ul class="dropdown arrow-top">
-                                        <li><a href="#team-section" class="nav-link">Додати результат щеплення</a></li>
-                                        <li><a href="#team-section" class="nav-link">Редагувати результат щеплення</a>
-                                        </li>
-                                        <li><a href="#pricing-section" class="nav-link">Переглянути результати
-                                            вакцинації</a>
+                                        <li><a href="../search_add_vaccination" class="nav-link">Додати результат щеплення</a></li>
+                                        <li><a href="../search_upd_vaccination" class="nav-link">Редагувати результат щеплення</a>
                                         </li>
                                     </ul>
                                 </li>
 
                                 <li class="has-children">
-                                    <a href="#about-section" class="nav-link">Звіти</a>
+                                    <a href="#analysis-section" class="nav-link">Звіти</a>
                                     <ul class="dropdown arrow-top">
+                                        <li><a href="#pricing-section" class="nav-link">Переглянути результати
+                                            вакцинації</a>
+                                        </li>
                                         <li><a href="#team-section" class="nav-link">Гістограма</a></li>
                                         <li><a href="#pricing-section" class="nav-link">Кругова діаграма</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#home-section" class="nav-link">Переглянути чергу</a></li>
+                                <li><a href="../queue" class="nav-link">Переглянути чергу</a></li>
                             {% else %}
                                 <li><a href="#home-section" class="nav-link">Записатись в чергу</a></li>
                                 <li><a href="#why-us-section" class="nav-link">Власні щеплення</a></li>

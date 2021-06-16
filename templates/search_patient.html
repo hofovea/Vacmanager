@@ -5,10 +5,15 @@
     <div class="container">
         <div class="card card-1  text-md-center">
             <div class="card card-1  text-md-center" id="card1">
-                <form action="search_upd_patient" method="POST">
+                <form action="{{ action_url }}" method="POST">
                     {% csrf_token %}
                     <table class="table table-hover">
                         <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <h3><b>{{ action_name }}</b></h3>
+                            </td>
+                        </tr>
                         <tr>
                             <td colspan="2">
                                 <h4><b>Введіть дані для пошуку пацієнта:</b></h4>
@@ -41,10 +46,10 @@
                                 <input style="width: 50%" type="submit" class="btn btn-primary" value="Знайти">
                             </td>
                         </tr>
-                        {% if patient_not_found%}
+                        {% if patient_not_found %}
                             <tr>
                                 <td colspan="2">
-                                    <h4><b>{{ patient_not_found}}</b></h4>
+                                    <h4><b>{{ patient_not_found }}</b></h4>
                                 </td>
                             </tr>
                         {% endif %}

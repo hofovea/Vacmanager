@@ -104,7 +104,7 @@ def add_patient(request):
         return render(request, 'add_patient.html')
 
 
-def update_search_patient(request):
+def search_update_patient(request):
     if request.method == 'POST':
         patient_first_name = request.POST['patient_first_name']
         patient_last_name = request.POST['patient_last_name']
@@ -114,12 +114,15 @@ def update_search_patient(request):
         except Patient.DoesNotExist:
             patient = None
         if patient is None:
-            return render(request, 'upd_search_patient.html',
-                          {'patient_not_found': 'Пацієнта з такими даними не існує'})
+            return render(request, 'search_patient.html',
+                          {'patient_not_found': 'Пацієнта з такими даними не існує',
+                           'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
         else:
-            return render(request, 'upd_patient.html', {'patient_to_update': patient})
+            return render(request, 'update_patient.html',
+                          {'patient_to_update': patient})
     else:
-        return render(request, 'upd_search_patient.html')
+        return render(request, 'search_patient.html',
+                      {'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
 
 
 def update_patient(request):
@@ -169,8 +172,110 @@ def update_patient(request):
         return redirect('/')
 
 
-def add_vaccine_patient(request):
-    return render(request, 'add_vaccine_patient.html', {'log': 'Please login', 'reg': 'Please register'})
+def get_life_period_string(life_period):
+    if life_period == 1:
+        return 'Немовля'
+    elif life_period == 2:
+        return 'Дитина'
+    else:
+        return 'Дорослий'
+
+
+def get_age_period_string(age_period):
+    if age_period == 1:
+        return '1 день'
+    elif age_period == 2:
+        return '2-5 днів'
+    elif age_period == 3:
+        return '2 місяці'
+    elif age_period == 4:
+        return '4 місяці'
+    elif age_period == 5:
+        return '6 місяців'
+    elif age_period == 6:
+        return '12 місяців'
+    elif age_period == 7:
+        return '18 місяців'
+    elif age_period == 8:
+        return '6 років'
+    elif age_period == 9:
+        return '14 років'
+    elif age_period == 10:
+        return '16 років'
+    else:
+        return 'Дорослий'
+
+
+def add_vaccination(request):
+    if request.method == 'POST':
+        number_of_dose = request.POST['number_of_dose']
+        scheduled_vaccination_date = dateutil.parser.parse(request.POST['scheduled_vaccination_date']).date()
+        actual_vaccination_date = dateutil.parser.parse(request.POST['actual_vaccination_date']).date()
+        vaccine_id = request.POST['vaccine_id']
+        patient_id = request.POST['patient_id']
+
+        patient = get_object_or_404(Patient, id=patient_id)
+        vaccine = get_object_or_404(Vaccine, id=vaccine_id)
+        new_vaccination_date = VaccinationDate.objects.create(patient=patient, vaccine=vaccine,
+                                                              number_of_dose=number_of_dose,
+                                                              scheduled_date=scheduled_vaccination_date,
+                                                              actual_date=actual_vaccination_date)
+        new_vaccination_date.save()
+        return redirect('/')
+
+
+def search_add_vaccination(request):
+    if request.method == 'POST':
+        patient_first_name = request.POST['patient_first_name']
+        patient_last_name = request.POST['patient_last_name']
+        patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
+        try:
+            patient = Patient.objects.get(name=patient_first_name, surname=patient_last_name, birthday=patient_birthday)
+        except Patient.DoesNotExist:
+            patient = None
+        if patient is None:
+            return render(request, 'search_patient.html',
+                          {'patient_not_found': 'Пацієнта з такими даними не існує',
+                           'action_name': 'Додавання інформації про щеплення пацієнта',
+                           'action_url': 'search_add_vaccination'})
+        else:
+            all_vaccines = Vaccine.objects.all()
+            return render(request, 'add_vaccination.html',
+                          {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
+                           'life_period': get_life_period_string(patient.life_period.life_period),
+                           'vaccines': all_vaccines})
+    else:
+        return render(request, 'search_patient.html',
+                      {'action_name': 'Додавання інформації про щеплення пацієнта',
+                       'action_url': 'search_add_vaccination'})
+
+
+def update_vaccination(request):
+    if request.method == 'POST':
+        pass
+
+
+def search_update_vaccination(request):
+    if request.method == 'POST':
+        patient_first_name = request.POST['patient_first_name']
+        patient_last_name = request.POST['patient_last_name']
+        patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
+        try:
+            patient = Patient.objects.get(name=patient_first_name, surname=patient_last_name, birthday=patient_birthday)
+        except Patient.DoesNotExist:
+            patient = None
+        if patient is None:
+            return render(request, 'search_patient.html',
+                          {'patient_not_found': 'Пацієнта з такими даними не існує',
+                           'action_name': 'Редагування інформації про щеплення пацієнта',
+                           'action_url': 'search_upd_vaccination'})
+        else:
+            return render(request, 'update_vaccination.html',
+                          {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
+                           'life_period': get_life_period_string(patient.life_period.life_period)})
+    else:
+        return render(request, 'search_patient.html', {'action_name': 'Редагування інформації про щеплення пацієнта',
+                                                       'action_url': 'search_upd_vaccination'})
 
 
 def personal_vaccinations(request):

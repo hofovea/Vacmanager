@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+        <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                <form action="upd_vaccination" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="patient_id" value="{{ patient.id }}">
+                    <table class="table table-hover">
+                        <tbody>
+                        <td colspan="2">
+                            <h4><b>Обраний пацієнт:</b></h4>
+                        </td>
+                        <tr>
+                            <td><b>Ім'я</b></td>
+                            <td>{{ patient.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Прізвище</b></td>
+                            <td>{{ patient.surname }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Дата народження</b></td>
+                            <td>{{ patient.birthday|date:"d/m/Y" }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Період життя</b></td>
+                            <td>{{ life_period }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Період віку</b></td>
+                            <td>{{ age_period }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h4><b>Дані про вакцинацію:</b></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputDoseNumber">Номер дози</label></b>
+                            </td>
+                            <td>
+                                <input required name="number_of_dose" type="number" class="form-control"
+                                       id="InputDoseNumber"
+                                       placeholder="Введіть номер дози" min="1" max="15">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputPlannedVaccinationDate">Запланована дата проведення щеплення</label></b>
+                            </td>
+                            <td>
+                                <input required name="scheduled_vaccination_date" type="date" class="form-control"
+                                       id="InputPlannedVaccinationDate">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputVaccinationDate">Фактична дата проведення щеплення</label></b>
+                            </td>
+                            <td>
+                                <input required name="actual_vaccination_date" type="date" class="form-control"
+                                       id="InputVaccinationDate">
+                            </td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputStreet">Вакцина</label></b>
+                            </td>
+                            <td>
+                                <label for="vaccine">Оберіть вакцину: </label>
+                                <select required name="vaccine_id" style="width: 50%" class="form-select"
+                                        aria-label="Default select example">
+                                    {% for vaccine in vaccines %}
+                                        <option value="{{ vaccine.id }}">{{ vaccine.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <td colspan="2">
+                            <input style="width: 50%" type="submit" class="btn btn-primary" value="Додати">
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

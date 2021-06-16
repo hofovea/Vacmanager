@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                <form action="{{ action_url }}" method="POST">
+                    {% csrf_token %}
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <h3><b>{{ action_name }}</b></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h4><b>Введіть дані для пошуку пацієнта:</b></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="InputName">Ім'я пацієнта</label></b></td>
+                            <td>
+                                <input name="patient_first_name" required type="text" class="form-control"
+                                       id="InputName" placeholder="Введіть ім'я">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="InputSurname">Прізвище пацієнта</label></b></td>
+                            <td>
+                                <input name="patient_last_name" required type="text" class="form-control"
+                                       id="InputSurname"
+                                       placeholder="Введіть прізвище">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="InputBirthday">Дата народження пацієнта</label></b></td>
+                            <td><input name="patient_birthday" required type="date" class="form-control"
+                                       id="InputBirthday"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                        <tr>
+                            <td colspan="2">
+                                <input style="width: 50%" type="submit" class="btn btn-primary" value="Знайти">
+                            </td>
+                        </tr>
+                        {% if patient_not_found %}
+                            <tr>
+                                <td colspan="2">
+                                    <h4><b>{{ patient_not_found }}</b></h4>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
