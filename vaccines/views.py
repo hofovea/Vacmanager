@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils.datetime_safe import date
 import dateutil.parser
@@ -47,11 +47,27 @@ def get_age_period(age_in_years, age_in_months, age_in_days):
         return AgePeriod.AgePeriods.ADULT
 
 
+def get_birthday_in_years(birthday):
+    today = date.today()
+    return today.year - birthday.year - (
+            (today.month, today.day) < (birthday.month, birthday.day))
+
+
+def get_birthday_in_months(birthday):
+    today = date.today()
+    return (today.year - birthday.year) * 12 + today.month - birthday.month
+
+
+def get_birthday_in_days(birthday):
+    today = date.today()
+    return (today - birthday).days
+
+
 def add_patient(request):
     if request.method == 'POST':
         print('add')
         patient_first_name = request.POST['patient_first_name']
-        patient_last_name = request.POST['patient_first_name']
+        patient_last_name = request.POST['patient_last_name']
         patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
         address_house_number = request.POST['address_house_number']
         address_street = request.POST['address_street']
@@ -59,15 +75,13 @@ def add_patient(request):
 
         # data-based calculations
         # calculate age in different formats
-        today = date.today()
-        patient_age_in_years = today.year - patient_birthday.year - (
-                (today.month, today.day) < (patient_birthday.month, patient_birthday.day))
+        patient_age_in_years = get_birthday_in_years(patient_birthday)
         print(patient_age_in_years)
 
-        patient_age_in_months = (today.year - patient_birthday.year) * 12 + today.month - patient_birthday.month
+        patient_age_in_months = get_birthday_in_months(patient_birthday)
         print(patient_age_in_months)
 
-        patient_age_in_days = (today - patient_birthday).days
+        patient_age_in_days = get_birthday_in_days(patient_birthday)
         print(patient_age_in_days)
 
         # get age_period and life_period entities
@@ -90,11 +104,69 @@ def add_patient(request):
         return render(request, 'add_patient.html')
 
 
+def update_search_patient(request):
+    if request.method == 'POST':
+        patient_first_name = request.POST['patient_first_name']
+        patient_last_name = request.POST['patient_last_name']
+        patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
+        try:
+            patient = Patient.objects.get(name=patient_first_name, surname=patient_last_name, birthday=patient_birthday)
+        except Patient.DoesNotExist:
+            patient = None
+        if patient is None:
+            return render(request, 'upd_search_patient.html',
+                          {'patient_not_found': 'Пацієнта з такими даними не існує'})
+        else:
+            return render(request, 'upd_patient.html', {'patient_to_update': patient})
+    else:
+        return render(request, 'upd_search_patient.html')
+
+
 def update_patient(request):
     if request.method == 'POST':
-        pass
-    else:
-        return render(request, 'upd_patient.html')
+        print('update')
+        patient_first_name = request.POST['patient_first_name']
+        patient_last_name = request.POST['patient_last_name']
+        patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
+        address_house_number = request.POST['address_house_number']
+        address_street = request.POST['address_street']
+        address_town = request.POST['address_town']
+        patient_id = request.POST['patient_id']
+
+        # data-based calculations
+        # calculate age in different formats
+        patient_age_in_years = get_birthday_in_years(patient_birthday)
+        print(patient_age_in_years)
+
+        patient_age_in_months = get_birthday_in_months(patient_birthday)
+        print(patient_age_in_months)
+
+        patient_age_in_days = get_birthday_in_days(patient_birthday)
+        print(patient_age_in_days)
+
+        # get age_period and life_period entities
+        patient_life_period = LifePeriod.objects.get(
+            life_period=get_life_period(patient_age_in_years, patient_age_in_months))
+        patient_age_period = AgePeriod.objects.get(
+            age_period=get_age_period(patient_age_in_years, patient_age_in_months, patient_age_in_days))
+
+        patient_to_update = get_object_or_404(Patient, id=patient_id)
+        patient_to_update_address = get_object_or_404(Address, id=patient_to_update.address.id)
+
+        patient_to_update_address.house = address_house_number
+        patient_to_update_address.street = address_street
+        patient_to_update_address.town = address_town
+
+        patient_to_update.name = patient_first_name
+        patient_to_update.surname = patient_last_name
+        patient_to_update.birthday = patient_birthday
+        patient_to_update.age = patient_age_in_years
+        patient_to_update.age_period = patient_age_period
+        patient_to_update.life_period = patient_life_period
+
+        patient_to_update_address.save()
+        patient_to_update.save()
+        return redirect('/')
 
 
 def add_vaccine_patient(request):

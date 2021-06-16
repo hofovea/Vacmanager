@@ -5,26 +5,29 @@
     <div class="container">
         <div class="card card-1  text-md-center">
             <div class="card card-1  text-md-center" id="card1">
-                <form action="add_patient" method="POST">
+                <form action="upd_patient" method="POST">
                     {% csrf_token %}
                     <table class="table table-hover">
                         <tbody>
                         <tr>
                             <td><b><label for="InputName">Ім'я пацієнта</label></b></td>
                             <td>
-                                <input name="patient_first_name" required type="text" class="form-control" id="InputName" placeholder="Введіть ім'я">
+                                <input name="patient_first_name" required type="text" class="form-control"
+                                       id="InputName" value="{{ patient_to_update.name }}">
                             </td>
                         </tr>
                         <tr>
                             <td><b><label for="InputSurname">Прізвище пацієнта</label></b></td>
                             <td>
-                                <input name="patient_last_name" required type="text" class="form-control" id="InputSurname"
-                                       placeholder="Введіть прізвище">
+                                <input name="patient_last_name" required type="text" class="form-control"
+                                       id="InputSurname"
+                                       value="{{ patient_to_update.surname }}">
                             </td>
                         </tr>
                         <tr>
                             <td><b><label for="InputBirthday">Дата народження пацієнта</label></b></td>
-                            <td><input name="patient_birthday" required type="date" class="form-control" id="InputBirthday"></td>
+                            <td><input name="patient_birthday" required type="date" class="form-control"
+                                       id="InputBirthday" value="{{ patient_to_update.birthday|date:"Y-m-d" }}"></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -35,8 +38,9 @@
                             <td>
                                 <b><label for="InputHouseNumber">Номер будинку</label></b>
                             </td>
-                            <td><input name="address_house_number" required type="number" class="form-control" id="InputHouseNumber"
-                                       placeholder="Введіть номер будинку"></td>
+                            <td><input name="address_house_number" required type="number" class="form-control"
+                                       id="InputHouseNumber"
+                                       value="{{ patient_to_update.address.house }}"></td>
                         </tr>
                         <tr>
                             <td>
@@ -44,7 +48,7 @@
                             </td>
                             <td>
                                 <input name="address_street" required type="text" class="form-control" id="InputStreet"
-                                       placeholder="Введіть назву вулиці">
+                                       value="{{ patient_to_update.address.street }}">
                             </td>
                         </tr>
                         <tr>
@@ -52,13 +56,15 @@
                                 <b><label for="InputSettlement">Назва населеного пункту</label></b>
                             </td>
                             <td>
-                                <input name="address_town" required type="text" class="form-control" id="InputSettlement"
-                                       placeholder="Введіть назву населеного пунту">
+                                <input name="address_town" required type="text" class="form-control"
+                                       id="InputSettlement"
+                                       value="{{ patient_to_update.address.town }}">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input style="width: 50%" type="submit" class="btn btn-primary" value="Додати">
+                                <input type="hidden" name="patient_id" value="{{ patient_to_update.id }}">
+                                <input style="width: 50%" type="submit" class="btn btn-primary" value="Оновити">
                             </td>
                         </tr>
                         </tbody>
