@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
 # Create your models here.
 from users.models import CustomUser
 
@@ -58,8 +57,7 @@ class Queue(models.Model):
 
 class Vaccine(models.Model):
     name = models.TextField(max_length=50)
-    patients = models.ManyToManyField(Patient, related_name='vaccines',
-                                      through='VaccinationDate', null=True, blank=True)
+    patients = models.ManyToManyField(Patient, related_name='vaccines', through='VaccinationDate', null=True, blank=True)
     amount_of_doses = models.IntegerField()
 
 
@@ -70,8 +68,8 @@ class Address(models.Model):
 
 
 class VaccinationDate(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='vaccination_dates')
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE, related_name='vaccination_dates')
     scheduled_date = models.DateField()
     actual_date = models.DateField(blank=True, null=True)
     number_of_dose = models.IntegerField()

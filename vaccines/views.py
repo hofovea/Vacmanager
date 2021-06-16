@@ -252,7 +252,19 @@ def search_add_vaccination(request):
 
 def update_vaccination(request):
     if request.method == 'POST':
-        pass
+        number_of_dose = request.POST['number_of_dose']
+        scheduled_vaccination_date = dateutil.parser.parse(request.POST['scheduled_vaccination_date']).date()
+        actual_vaccination_date = dateutil.parser.parse(request.POST['actual_vaccination_date']).date()
+        patient_id = request.POST['patient_id']
+        vaccination_id = request.POST['vaccination_id']
+        patient = get_object_or_404(Patient, id=patient_id)
+        vaccination = get_object_or_404(VaccinationDate, id=vaccination_id)
+
+        vaccination.scheduled_date = scheduled_vaccination_date
+        vaccination.actual_date = actual_vaccination_date
+        vaccination.number_of_dose = number_of_dose
+        vaccination.save()
+        return redirect('/')
 
 
 def search_update_vaccination(request):
@@ -270,12 +282,28 @@ def search_update_vaccination(request):
                            'action_name': 'Редагування інформації про щеплення пацієнта',
                            'action_url': 'search_upd_vaccination'})
         else:
-            return render(request, 'update_vaccination.html',
-                          {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
-                           'life_period': get_life_period_string(patient.life_period.life_period)})
+            return render(request, 'search_vaccination.html',
+                          {'action_url': 'search_patient_vaccination', 'patient': patient,
+                           'vaccinations': patient.vaccination_dates.all()})
     else:
         return render(request, 'search_patient.html', {'action_name': 'Редагування інформації про щеплення пацієнта',
                                                        'action_url': 'search_upd_vaccination'})
+
+
+def search_patient_vaccination(request):
+    if request.method == 'POST':
+        patient_id = request.POST['patient_id']
+        vaccination_id = request.POST['vaccination_id']
+        patient = Patient.objects.get(id=patient_id)
+        vaccination = VaccinationDate.objects.get(id=vaccination_id)
+        return render(request, 'update_vaccination.html',
+                      {'patient': patient, 'age_period': get_age_period_string(patient.age_period.age_period),
+                       'life_period': get_life_period_string(patient.life_period.life_period),
+                       'vaccination': vaccination})
+    else:
+        return render(request, 'search_patient.html',
+                      {'action_name': 'Редагування інформації про щеплення пацієнта',
+                       'action_url': 'upd_vaccination'})
 
 
 def personal_vaccinations(request):

@@ -2,12 +2,13 @@
 
 {% block content %}
 
-        <div class="container">
+    <div class="container">
         <div class="card card-1  text-md-center">
             <div class="card card-1  text-md-center" id="card1">
                 <form action="upd_vaccination" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="patient_id" value="{{ patient.id }}">
+                    <input type="hidden" name="vaccination_id" value="{{ vaccination.id }}">
                     <table class="table table-hover">
                         <tbody>
                         <td colspan="2">
@@ -45,7 +46,7 @@
                             <td>
                                 <input required name="number_of_dose" type="number" class="form-control"
                                        id="InputDoseNumber"
-                                       placeholder="Введіть номер дози" min="1" max="15">
+                                       value="{{ vaccination.number_of_dose }}" min="1" max="15">
                             </td>
                         </tr>
                         <tr>
@@ -54,7 +55,8 @@
                             </td>
                             <td>
                                 <input required name="scheduled_vaccination_date" type="date" class="form-control"
-                                       id="InputPlannedVaccinationDate">
+                                       id="InputPlannedVaccinationDate"
+                                       value="{{ vaccination.scheduled_date|date:"Y-m-d" }}">
                             </td>
                         </tr>
                         <tr>
@@ -63,26 +65,20 @@
                             </td>
                             <td>
                                 <input required name="actual_vaccination_date" type="date" class="form-control"
-                                       id="InputVaccinationDate">
+                                       id="InputVaccinationDate" value="{{ vaccination.actual_date|date:"Y-m-d" }}">
                             </td>
                         </tr>
                         <tr>
                         <tr>
                             <td>
-                                <b><label for="InputStreet">Вакцина</label></b>
+                                <b><label>Вакцина</label></b>
                             </td>
                             <td>
-                                <label for="vaccine">Оберіть вакцину: </label>
-                                <select required name="vaccine_id" style="width: 50%" class="form-select"
-                                        aria-label="Default select example">
-                                    {% for vaccine in vaccines %}
-                                        <option value="{{ vaccine.id }}">{{ vaccine.name }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ vaccination.vaccine.name }}
                             </td>
                         </tr>
                         <td colspan="2">
-                            <input style="width: 50%" type="submit" class="btn btn-primary" value="Додати">
+                            <input style="width: 50%" type="submit" class="btn btn-primary" value="Оновити">
                         </td>
                         </tr>
                         </tbody>
