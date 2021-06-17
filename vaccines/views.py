@@ -1,13 +1,23 @@
+import json
+from collections import Counter
+from django.db.models import F
 from django.contrib.auth import login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils.datetime_safe import date
 import dateutil.parser
-
+import pandas as pd
+from plotly.graph_objs import Scatter
+from plotly.offline import plot
+import plotly.express as px
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
 from .models import *
 
-
 # Create your views here.
+from .tables import *
+
 
 def home(request):
     return render(request, 'index.html')
@@ -293,7 +303,7 @@ def search_update_vaccination(request):
     else:
         return render(request, 'patient/patient_search.html',
                       {'action_name': 'Редагування інформації про щеплення пацієнта',
-                       'action_url': 'search_upd_vaccination','patients': patients})
+                       'action_url': 'search_upd_vaccination', 'patients': patients})
 
 
 def search_patient_vaccination(request):
@@ -374,3 +384,44 @@ def add_queue(request):
         return redirect('/queue')
     else:
         return render(request, 'queue/queue_add.html')
+
+
+def circle(request):
+    x_data = list(Patient.objects.all().values('age'))  # [0, 1, 2, 3]
+    data_1 = len(list(VaccinationDate.objects.filter(scheduled_date=F('actual_date'))))
+    data_2 = len(list(VaccinationDate.objects.all()))
+    df = pd.DataFrame({'names': ['вчасно', 'невчасно'], 'data': [data_1, data_2]})
+    # print(x_data)
+    count = Counter()
+    for x in x_data:
+        count[str(x['age'])] += 1
+    count_list = list(count.items())  # [{count[count.keys][count.values]: list()}]
+    # print(count)
+    # print(count.values())
+    # df = pd.DataFrame({'count': count.values()})
+
+    plot_h = px.pie(names=['вчасно', 'невчасно'], values=[data_1, data_2])
+
+    #plot_h = px.pie(names=count.keys(), values=count.values())
+
+    # plot_div = plot([Scatter(x=x_data, y=y_data,
+    #                          mode='markers', name='test',
+    #                          opacity=0.8, marker_color='green')],
+    #                 output_type='div')
+    # return HttpResponse(plot_h.to_html())
+    return render(request, 'analysis/circle.html', context={'plot_div': plot_h.to_html()})
+
+
+def histogram(request):
+    x_data = list(Patient.objects.all().values('age'))  # [0, 1, 2, 3]
+    print(x_data)
+    count = Counter()
+    for x in x_data:
+        count[str(x['age'])] += 1
+    count_list = list(count.items())  # [{count[count.keys][count.values]: list()}]
+    print(count)
+    print(count_list)
+    df = pd.DataFrame({'count': dict(count)})
+    plot_h = px.bar(df, )
+    # plot_h = px.bar(x_data, y='age')
+    return render(request, 'analysis/histogram.html', context={'plot_div': plot_h.to_html()})

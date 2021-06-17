@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from .table_views import *
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -14,12 +15,20 @@ urlpatterns = [
     path('search_patient_vaccination', views.search_patient_vaccination, name='search_patient_vaccination'),
     path('search_upd_vaccination', views.search_update_vaccination, name='search_update_vaccination'),
 
-    # patient`s personal vaccination
-    path('personal_vaccinations', views.personal_vaccinations, name='personal_vaccinations'),
+    #path('vaccination_results', views.vaccination_results, name='vaccination_results'),
+    path('vaccination_results', PatientListView.as_view(), name='vaccination_results'),
+    path('patient_results', VaccinationListView.as_view(), name='patient_results'),
 
     path('queue', views.queue, name='doctor_queue'),
     path('add_queue', views.add_queue, name='doctor_queue'),
 
     path('upd_email', views.email_update, name='email_update'),
-    path('upd_pass', views.password_update, name='password_update')
+    path('upd_pass', views.password_update, name='password_update'),
+
+    # patient`s personal vaccination
+    path('personal_vaccinations', views.personal_vaccinations, name='personal_vaccinations'),
+
+    # analysis
+    path('circle', views.circle, name='circle'),
+    path('histogram', views.histogram, name='histogram')
 ]

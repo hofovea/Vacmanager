@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                {% autoescape off %}
+                    {{ plot_div }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

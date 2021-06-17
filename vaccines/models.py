@@ -16,6 +16,15 @@ class LifePeriod(models.Model):
         default=LifePeriods.BABY,
     )
 
+    @property
+    def get_life_period(self):
+        if self.life_period == 1:
+            return 'Немовля'
+        elif self.life_period == 2:
+            return 'Дитина'
+        else:
+            return 'Дорослий'
+
 
 class AgePeriod(models.Model):
     class AgePeriods(models.IntegerChoices):
@@ -37,6 +46,31 @@ class AgePeriod(models.Model):
     )
     life_period = models.ForeignKey(LifePeriod, on_delete=models.CASCADE, related_name='age_periods')
 
+    @property
+    def get_age_period(self):
+        if self.age_period == 1:
+            return '1 день'
+        elif self.age_period == 2:
+            return '2-5 днів'
+        elif self.age_period == 3:
+            return '2 місяці'
+        elif self.age_period == 4:
+            return '4 місяці'
+        elif self.age_period == 5:
+            return '6 місяців'
+        elif self.age_period == 6:
+            return '12 місяців'
+        elif self.age_period == 7:
+            return '18 місяців'
+        elif self.age_period == 8:
+            return '6 років'
+        elif self.age_period == 9:
+            return '14 років'
+        elif self.age_period == 10:
+            return '16 років'
+        else:
+            return 'Дорослий'
+
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)
@@ -48,6 +82,10 @@ class Patient(models.Model):
     age_period = models.ForeignKey(AgePeriod, on_delete=models.CASCADE, related_name='patients')
     user = models.OneToOneField(CustomUser, null=True, blank=True, on_delete=models.CASCADE)
 
+    @property
+    def get_patient_data(self):
+        return '{0} {1}, {2}'.format(self.name, self.surname, self.age)
+
 
 class Queue(models.Model):
     date = models.DateField()
@@ -57,7 +95,8 @@ class Queue(models.Model):
 
 class Vaccine(models.Model):
     name = models.TextField(max_length=50)
-    patients = models.ManyToManyField(Patient, related_name='vaccines', through='VaccinationDate', null=True, blank=True)
+    patients = models.ManyToManyField(Patient, related_name='vaccines', through='VaccinationDate', null=True,
+                                      blank=True)
     amount_of_doses = models.IntegerField()
 
 
@@ -65,6 +104,10 @@ class Address(models.Model):
     house = models.IntegerField()  # номер будинку
     street = models.CharField(max_length=100)  # вулиця
     town = models.CharField(max_length=100)  # населений пункт
+
+    @property
+    def full_address(self):
+        return '{0}, {1} {2}'.format(self.town, self.street, self.house)
 
 
 class VaccinationDate(models.Model):

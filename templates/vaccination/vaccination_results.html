@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base/base.html' %}
+{% load custom_filters %}
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% block content %}
 
-</body>
-</html>
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                {#                <table class="table table-hover">#}
+                {#                    <tbody>#}
+                {#                    <tr>#}
+                {#                        <td><b>Ім'я</b></td>#}
+                {#                        <td><b>Прізвище</b></td>#}
+                {#                        <td><b>Дата народження</b></td>#}
+                {#                        <td><b>Вік</b></td>#}
+                {#                        <td><b>Період віку</b></td>#}
+                {#                        <td><b>Період життя</b></td>#}
+                {#                        <td><b>Адреса</b></td>#}
+                {#                    </tr>#}
+                {#                    {% for patient in patients %}#}
+                {#                        <tr>#}
+                {#                            <td>{{ patient.name }}</td>#}
+                {#                            <td>{{ patient.surname }}</td>#}
+                {#                            <td>{{ patient.birthday}}</td>#}
+                {#                            <td>{{ patient.age}}</td>#}
+                {#                            <td>{{ patient.age_period.age_period|get_age_period_string}}</td>#}
+                {#                            <td>{{ patient.life_period.life_period|get_life_period_string}}</td>#}
+                {#                            <td>{{ patient.address.town}}, {{ patient.address.street }}, {{ patient.address.house }}</td>#}
+                {#                        </tr>#}
+                {#                    {% endfor %}#}
+                {#                    </tbody>#}
+                {#                </table>#}
+                {#                {% render_table table %}#}
+                {% if filter %}
+                    <form action="" method="get" class="form form-inline">
+                        {% bootstrap_form filter.form layout='inline' %}
+                        {% bootstrap_button 'filter' %}
+                    </form>
+                {% endif %}
+                {% render_table table %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -80,8 +80,8 @@ def link_with_patient(request):
         if patient is None:
             return redirect('user_patient_creation')
         else:
-            user.patient = patient
-            user.save()
+            patient.user = user
+            patient.save()
             return redirect('/')
     else:
         return render(request, 'patient/patient_search.html',
