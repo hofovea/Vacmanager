@@ -15,6 +15,20 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>
+                                <b>Наявні пацієнти:</b>
+                            </td>
+                            <td>
+                                <select style="width: 70%" class="form-select"
+                                        aria-label="Default select example">
+                                    {% for patient in patients %}
+                                        <option>Ім'я: {{ patient.name }} {{ patient.surname }}. Дата
+                                            народження: {{ patient.birthday|date:"d/m/Y" }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="2">
                                 <h4><b>Введіть дані для пошуку пацієнта:</b></h4>
                             </td>
@@ -39,8 +53,6 @@
                             <td><input name="patient_birthday" required type="date" class="form-control"
                                        id="InputBirthday"></td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
                         <tr>
                             <td colspan="2">
                                 <input style="width: 50%" type="submit" class="btn btn-primary" value="Знайти">

@@ -106,6 +106,7 @@ def add_patient(request):
 
 def search_update_patient(request):
     if request.method == 'POST':
+        patients = Patient.objects.all()
         patient_first_name = request.POST['patient_first_name']
         patient_last_name = request.POST['patient_last_name']
         patient_birthday = dateutil.parser.parse(request.POST['patient_birthday']).date()
@@ -116,13 +117,15 @@ def search_update_patient(request):
         if patient is None:
             return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
-                           'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
+                           'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient',
+                           'patients': patients})
         else:
             return render(request, 'patient/patient_update.html',
                           {'patient_to_update': patient})
     else:
+        patients = Patient.objects.all()
         return render(request, 'patient/patient_search.html',
-                      {'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient'})
+                      {'action_name': 'Редагування пацієнта', 'action_url': 'search_upd_patient', 'patients': patients})
 
 
 def update_patient(request):
@@ -225,6 +228,7 @@ def add_vaccination(request):
 
 
 def search_add_vaccination(request):
+    patients = Patient.objects.all()
     if request.method == 'POST':
         patient_first_name = request.POST['patient_first_name']
         patient_last_name = request.POST['patient_last_name']
@@ -237,7 +241,7 @@ def search_add_vaccination(request):
             return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
                            'action_name': 'Додавання інформації про щеплення пацієнта',
-                           'action_url': 'search_add_vaccination'})
+                           'action_url': 'search_add_vaccination', 'patients': patients})
         else:
             all_vaccines = Vaccine.objects.all()
             return render(request, 'vaccination/vaccination_add.html',
@@ -247,7 +251,7 @@ def search_add_vaccination(request):
     else:
         return render(request, 'patient/patient_search.html',
                       {'action_name': 'Додавання інформації про щеплення пацієнта',
-                       'action_url': 'search_add_vaccination'})
+                       'action_url': 'search_add_vaccination', 'patients': patients})
 
 
 def update_vaccination(request):
@@ -268,6 +272,7 @@ def update_vaccination(request):
 
 
 def search_update_vaccination(request):
+    patients = Patient.objects.all()
     if request.method == 'POST':
         patient_first_name = request.POST['patient_first_name']
         patient_last_name = request.POST['patient_last_name']
@@ -280,7 +285,7 @@ def search_update_vaccination(request):
             return render(request, 'patient/patient_search.html',
                           {'patient_not_found': 'Пацієнта з такими даними не існує',
                            'action_name': 'Редагування інформації про щеплення пацієнта',
-                           'action_url': 'search_upd_vaccination'})
+                           'action_url': 'search_upd_vaccination', 'patients': patients})
         else:
             return render(request, 'vaccination/vaccination_search.html',
                           {'action_url': 'search_patient_vaccination', 'patient': patient,
@@ -288,7 +293,7 @@ def search_update_vaccination(request):
     else:
         return render(request, 'patient/patient_search.html',
                       {'action_name': 'Редагування інформації про щеплення пацієнта',
-                       'action_url': 'search_upd_vaccination'})
+                       'action_url': 'search_upd_vaccination','patients': patients})
 
 
 def search_patient_vaccination(request):

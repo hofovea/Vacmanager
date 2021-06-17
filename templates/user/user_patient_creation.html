@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card card-1  text-md-center">
+            <div class="card card-1  text-md-center" id="card1">
+                <form action="user_patient_creation" method="POST">
+                    {% csrf_token %}
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td><b><label for="InputName">Ваше ім'я</label></b></td>
+                            <td>
+                                <input name="patient_first_name" required type="text" class="form-control"
+                                       id="InputName" value="{{ user.first_name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="InputSurname">Ваше прізвище</label></b></td>
+                            <td>
+                                <input name="patient_last_name" required type="text" class="form-control"
+                                       id="InputSurname"
+                                       value="{{ user.last_name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="InputBirthday">Ваша дата народження</label></b></td>
+                            <td><input name="patient_birthday" required type="date" class="form-control"
+                                       id="InputBirthday"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h4><b>Ваша адреса</b></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputHouseNumber">Номер будинку</label></b>
+                            </td>
+                            <td><input name="address_house_number" required type="number" class="form-control"
+                                       id="InputHouseNumber"
+                                       placeholder="Номер будинку"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputStreet">Назва вулиці</label></b>
+                            </td>
+                            <td>
+                                <input name="address_street" required type="text" class="form-control" id="InputStreet"
+                                       placeholder="Вулиця">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b><label for="InputSettlement">Назва населеного пункту</label></b>
+                            </td>
+                            <td>
+                                <input name="address_town" required type="text" class="form-control"
+                                       id="InputSettlement"
+                                       placeholder="Населений пункт">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input style="width: 50%" type="submit" class="btn btn-primary" value="Додати">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
