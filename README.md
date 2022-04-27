@@ -1,5 +1,5 @@
 # Vacmanager
-## Diploma project
+## Web applicatoin for vaccination management
 
 
 ### Demo:
